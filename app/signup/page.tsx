@@ -9,14 +9,10 @@ export default function Signup() {
   const handleSignup = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    // Log values before sending the request to ensure they're correct
-    console.log("Email:", email);
-    console.log("Password:", password);
-
     const response = await fetch('/api/signup', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, password }), // Make sure email and password are being sent
+      body: JSON.stringify({ email, password }),
     });
 
     if (response.ok) {
@@ -27,63 +23,32 @@ export default function Signup() {
   };
 
   return (
-    <div style={styles.container}>
-      <h1>Create a Bearhub Account</h1>
-      <form onSubmit={handleSignup} style={styles.form}>
+    <div className="flex flex-col items-center justify-center min-h-screen bg-primary-bg text-primary-text">
+      <h1 className="text-4xl mb-6 text-accent-orange">Create a Bearhub Account</h1>
+      <form onSubmit={handleSignup} className="bg-light-accent p-8 rounded-lg shadow-lg w-full max-w-sm">
         <input
           type="email"
           placeholder="Email"
-          value={email} // Ensure this is tied to the state
-          onChange={(e) => {
-            setEmail(e.target.value);
-          }}
-          style={styles.input}
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          className="mb-4 p-2 w-full border border-gray-300 rounded-lg"
           required
         />
         <input
           type="password"
           placeholder="Password"
-          value={password} // Ensure this is tied to the state
-          onChange={(e) => {
-            setPassword(e.target.value);
-          }}
-          style={styles.input}
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          className="mb-4 p-2 w-full border border-gray-300 rounded-lg"
           required
         />
-        <button type="submit" style={styles.button}>Sign Up</button>
+        <button
+          type="submit"
+          className="w-full py-2 px-4 bg-accent-orange text-white rounded-lg hover:bg-orange-500 transition ease-in-out duration-300"
+        >
+          Sign Up
+        </button>
       </form>
     </div>
   );
 }
-
-const styles = {
-  container: {
-    display: 'flex',
-    flexDirection: 'column' as const,
-    alignItems: 'center',
-    justifyContent: 'center',
-    height: '100vh',
-    backgroundColor: '#f0f4f8',
-  },
-  form: {
-    display: 'flex',
-    flexDirection: 'column' as const,
-    gap: '10px',
-    width: '300px',
-  },
-  input: {
-    padding: '10px',
-    fontSize: '16px',
-    borderRadius: '5px',
-    border: '1px solid #ccc',
-  },
-  button: {
-    padding: '10px',
-    fontSize: '16px',
-    cursor: 'pointer',
-    backgroundColor: '#4CAF50',
-    color: 'white',
-    border: 'none',
-    borderRadius: '5px',
-  },
-};
