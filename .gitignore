@@ -1,6 +1,6 @@
 # Node and Bun
 node_modules/
-# bun.lockb
+bun.lockb
 .pnp/
 .pnp.js
 
@@ -48,5 +48,5 @@ Thumbs.db
 coverage/
 
 # npm and yarn lockfiles (if you ever switch between them)
-# package-lock.json
+package-lock.json
 yarn.lock
