@@ -1,0 +1,52 @@
+# Node and Bun
+node_modules/
+bun.lockb
+.pnp/
+.pnp.js
+
+# Bun cache and dependencies
+.bun/
+
+# Next.js build output
+.next/
+out/
+
+# Next.js static files
+public/static/
+
+# Production build artifacts
+dist/
+
+# Temporary files
+*.log
+*.tmp
+*.lock
+.DS_Store
+*.swp
+.nyc_output/
+
+# Local environment variables
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Miscellaneous files
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# OS-specific files
+Thumbs.db
+.DS_Store
+
+# Git conflicts
+*.orig
+
+# Coverage directory
+coverage/
+
+# npm and yarn lockfiles (if you ever switch between them)
+package-lock.json
+yarn.lock
