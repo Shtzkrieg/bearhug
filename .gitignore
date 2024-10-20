@@ -30,6 +30,7 @@ dist/
 .env.development.local
 .env.test.local
 .env.production.local
+.env
 
 # Miscellaneous files
 .vscode/
@@ -48,5 +49,5 @@ Thumbs.db
 coverage/
 
 # npm and yarn lockfiles (if you ever switch between them)
-package-lock.json
+# package-lock.json
 yarn.lock
