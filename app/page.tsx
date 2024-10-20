@@ -1,10 +1,10 @@
 "use client"; // Mark this as a client component
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 
-export default function HomePage() {
+function HomePageContent() {
   const [showMessage, setShowMessage] = useState<boolean>(false);
   const [fadeOut, setFadeOut] = useState<boolean>(false);
   const searchParams = useSearchParams();
@@ -70,5 +70,13 @@ export default function HomePage() {
         <p>🐻 All the Bears. All the Time. 🐻</p>
       </footer>
     </div>
+  );
+}
+
+export default function HomePage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <HomePageContent />
+    </Suspense>
   );
 }
