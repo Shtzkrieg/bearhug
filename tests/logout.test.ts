@@ -12,7 +12,7 @@ describe('POST /api/logout', () => {
     expect(res._getStatusCode()).toBe(200);
     expect(res._getJSONData()).toEqual({ message: 'Logged out successfully' });
     expect(res._getHeaders()['set-cookie']).toContain("token=; Max-Age=-1; Path=/; HttpOnly")
-    expect(res._getHeaders()['set-cookie']).toContain("isLoggedIn=; Max-Age=-1; Path=/; HttpOnly");
+    expect(res._getHeaders()['set-cookie']).toContain("isLoggedIn=; Max-Age=-1; Path=/");
   });
 
   it('should return an error if the method is not POST', async () => {

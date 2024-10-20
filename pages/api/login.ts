@@ -33,13 +33,21 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       // Generate JWT
       const token = jwt.sign({ userId: user.id }, JWT_SECRET, { expiresIn: '1h' });
 
-      // Set cookie
-      res.setHeader('Set-Cookie', serialize('token', token, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',
-        maxAge: 3600,
-        path: '/',
-      }));
+      // Set cookies
+      res.setHeader('Set-Cookie', [
+        serialize('token', token, {
+          httpOnly: true, // Secure and inaccessible to client-side JS
+          secure: process.env.NODE_ENV === 'production',
+          maxAge: 3600,
+          path: '/',
+        }),
+        serialize('isLoggedIn', 'true', {
+          httpOnly: false, // Accessible by client-side JavaScript
+          secure: process.env.NODE_ENV === 'production',
+          maxAge: 3600,
+          path: '/',
+        }),
+      ]);
 
       res.status(200).json({ message: 'Login successful!', token });
     } catch (error) {
