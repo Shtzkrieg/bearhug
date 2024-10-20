@@ -4,6 +4,7 @@ COPY . .
 
 # Install dependencies
 RUN bun install
+RUN bun install npm
 
 # Build the Next.js app
 RUN bun run build
