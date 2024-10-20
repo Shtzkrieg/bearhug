@@ -1,10 +1,42 @@
-"use client"; // Mark as client component
+"use client"; // Mark this as a client component
 
+import { useEffect, useState } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 
 export default function HomePage() {
+  const [showMessage, setShowMessage] = useState<boolean>(false);
+  const [fadeOut, setFadeOut] = useState<boolean>(false);
+  const searchParams = useSearchParams();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (searchParams && searchParams.get('signup') === 'success') {
+      setShowMessage(true);
+      setTimeout(() => {
+        setFadeOut(true);
+        setTimeout(() => {
+          setShowMessage(false);
+          setFadeOut(false);
+          const params = new URLSearchParams(window.location.search);
+          params.delete('signup');
+          router.replace(`/?${params.toString()}`);
+        }, 2000); // Fade out duration
+      }, 5000); // Show message duration
+    }
+  }, [searchParams, router]);
+
   return (
     <div className="flex flex-col min-h-screen bg-primary-bg text-primary-text font-sans">
+      {showMessage && (
+        <div
+          className={`fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-green-500 text-white p-4 rounded-lg shadow-lg transition-opacity duration-2000 ${
+            fadeOut ? 'opacity-0' : 'opacity-100'
+          }`}
+        >
+          Account created successfully!
+        </div>
+      )}
       <header className="bg-dark-grey text-white text-center py-10">
         <h1 className="text-4xl text-accent-orange tracking-wide">Bearhub</h1>
         <p className="text-lg mt-3 text-gray-300">Track the wildest, friendliest bears in your area!</p>
