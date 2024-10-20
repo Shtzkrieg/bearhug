@@ -1,24 +1,57 @@
 "use client"; // Mark this as a client component
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 export default function Signup() {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+  const [loading, setLoading] = useState<boolean>(false);
+  const [message, setMessage] = useState<string | null>(null);
+  const [isSuccess, setIsSuccess] = useState<boolean | null>(null);
+  const router = useRouter();
+
+  const validateEmail = (email: string) => {
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(email);
+  };
 
   const handleSignup = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setLoading(true);
+    setMessage(null);
 
-    const response = await fetch('/api/signup', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, password }),
-    });
+    if (!validateEmail(email)) {
+      setLoading(false);
+      setIsSuccess(false);
+      setMessage('Please enter a valid email address.');
+      return;
+    }
 
-    if (response.ok) {
-      alert('Account created successfully!');
-    } else {
-      alert('Failed to create account.');
+    try {
+      const response = await fetch('/api/signup', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await response.json();
+      setLoading(false);
+
+      if (response.ok) {
+        setIsSuccess(true);
+        setMessage(data.message);
+        setTimeout(() => {
+          router.push('/?signup=success');
+        }, 3000); // Redirect to the main page after 3 seconds
+      } else {
+        setIsSuccess(false);
+        setMessage(data.message);
+      }
+    } catch (error) {
+      setLoading(false);
+      setIsSuccess(false);
+      setMessage('An unexpected error occurred. Please try again later.');
     }
   };
 
@@ -44,11 +77,18 @@ export default function Signup() {
         />
         <button
           type="submit"
-          className="w-full py-2 px-4 bg-accent-orange text-white rounded-lg hover:bg-orange-500 transition ease-in-out duration-300"
+          className="bg-accent-orange text-white p-2 w-full rounded-lg flex items-center justify-center"
+          disabled={loading}
         >
-          Sign Up
+          {loading ? <div className="loader"></div> : 'Sign Up'}
         </button>
       </form>
+      {message && (
+        <div className={`mt-4 p-2 w-full max-w-sm text-center rounded-lg ${isSuccess ? 'bg-green-500 text-white' : 'bg-red-500 text-white'}`}>
+          {message}
+          {isSuccess && <p>You will be redirected to the main page shortly...</p>}
+        </div>
+      )}
     </div>
   );
 }
