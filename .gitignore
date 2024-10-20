@@ -49,5 +49,7 @@ Thumbs.db
 coverage/
 
 # npm and yarn lockfiles (if you ever switch between them)
-# package-lock.json
 yarn.lock
+
+#secrets
+.env

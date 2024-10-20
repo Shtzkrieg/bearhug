@@ -1,0 +1,1 @@
+process.env.DATABASE_SCHEMA = process.env.DATABASE_SCHEMA_TEST;
