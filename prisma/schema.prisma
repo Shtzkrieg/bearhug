@@ -13,3 +13,36 @@ model User {
   email    String @unique
   password String
 }
+
+model Bear {
+  id           Int      @id @default(autoincrement())
+  name         String
+  locationId   Int
+  location     Location @relation(fields: [locationId], references: [id])
+  description  String
+  size         String
+  lastSighting DateTime
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  scatObservations ScatObservation[]
+}
+
+model Location {
+  id       Int      @id @default(autoincrement())
+  city     String
+  state    String
+  country  String
+  bears    Bear[]
+}
+
+model ScatObservation {
+  id          Int      @id @default(autoincrement())
+  bearId      Int
+  bear        Bear     @relation(fields: [bearId], references: [id])
+  date        DateTime
+  color       String
+  consistency String
+  contents    String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
